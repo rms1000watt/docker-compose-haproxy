@@ -9,7 +9,7 @@ Docker Compose for playing with HAProxy
 - [Start](#start)
 - [Test](#test)
 
-## Run
+## Start
 
 ```bash
 docker-compose up -d
