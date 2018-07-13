@@ -8,7 +8,8 @@ networks:
 services:
   haproxy:
     container_name: haproxy
-    image: haproxy:1.8.12-alpine
+    # image: haproxy:1.8.12-alpine
+    image: mminks/haproxy-docker-logging:latest
     ports:
     - 9000:9000
     networks:
