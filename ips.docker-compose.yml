@@ -1,0 +1,46 @@
+version: '3.6'
+
+networks:
+  haproxy-net:
+    name: haproxy-net
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/16
+
+services:
+  haproxy:
+    container_name: haproxy
+    # image: haproxy:1.8.12-alpine
+    image: mminks/haproxy-docker-logging:latest
+    ports:
+    - 9000:9000
+    networks:
+      haproxy-net:
+        ipv4_address: 10.0.0.10
+    volumes:
+    - ./ips.haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+
+  echo-1:
+    container_name: echo-1
+    command: >-
+      -text=hello-from-1
+      -listen=:8001
+    image: hashicorp/http-echo:0.2.3
+    ports:
+    - 8001:8001
+    networks:
+      haproxy-net:
+        ipv4_address: 10.0.0.11
+
+  echo-2:
+    container_name: echo-2
+    command: >-
+      -text=hello-from-2
+      -listen=:8002
+    image: hashicorp/http-echo:0.2.3
+    ports:
+    - 8002:8002
+    networks:
+      haproxy-net:
+        ipv4_address: 10.0.0.12
